@@ -1,0 +1,3 @@
+[submodule "extern/nothofagus"]
+	path = extern/nothofagus
+	url = https://github.com/dantros/nothofagus.git
