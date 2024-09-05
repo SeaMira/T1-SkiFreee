@@ -11,6 +11,6 @@ add_subdirectory(src)
 
 add_executable(SkiFree "main.cpp")
 set_property(TARGET SkiFree PROPERTY CXX_STANDARD 20)
-
+target_include_directories(SkiFree PRIVATE ${NOTHOFAGUS_INCLUDE})
 # Here we bind the library and its headers
-target_link_libraries(static_lib_demo PRIVATE arrow_library)
+target_link_libraries(${PROJECT_NAME} SkiFreeDependencies)
