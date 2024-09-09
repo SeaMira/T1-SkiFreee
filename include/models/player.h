@@ -1,12 +1,16 @@
-#ifndef _PLAYER
-#define _PLAYER
 
-#include <game_objects.h>
+#include "game_objects.h"
+#include <nothofagus.h>
     
 
+Player::Player() {
+    x = 0.0f;
+    y = 0.0f;
+    setFrontPixelMap();
+}
+
 Player::Player(float x, float y): x(x), y(y) {
-    playerTexture.setPallete(PlayerPallete)
-        .setPixels(frontPixelMap);
+    setFrontPixelMap();
 }
 
 std::vector<float> Player::getBoundingBox() {
@@ -27,8 +31,8 @@ void Player::addToCanvas(Nothofagus::Canvas& canvas) {
 
 
 void Player::removeFromCanvas(Nothofagus::Canvas& canvas) {
-    canvas.removeBellota(textureId);
-    canvas.removeTexture(bellotaId);
+    canvas.removeBellota(bellotaId);
+    canvas.removeTexture(textureId);
 }
 
 void Player::draw(Nothofagus::Canvas& canvas) {
@@ -39,6 +43,10 @@ void Player::draw(Nothofagus::Canvas& canvas) {
 
 float Player::getSpeed(const float dt) {
     speed = std::min(speed+dt, 1.0f);
+    return speed;
+}
+
+float Player::getActualSpeed() {
     return speed;
 }
 
@@ -62,15 +70,19 @@ void Player::jumped() {
     jump_counter = speed;
 }
 
+bool Player::isJumping() {
+    return is_jumping;
+}
+
 void Player::checkJumpCounter(const float dt) {
     jump_counter = std::max(0.0f, jump_counter-dt);
     if (jump_counter == 0.0f) is_jumping = false;
     else is_jumping = true;
 }
 
-void Player::setPixelMap(std::initializer_list<Nothofagus::Pixel::ColorId> pixelMap) {
-    playerTexture.setPixelMap(pixelMap);
-}
+//void Player::setPixelMap(std::initializer_list<Nothofagus::Pixel::ColorId> pixelMap) {
+//    playerTexture.setPixelMap(pixelMap);
+//}
 
 void Player::jump(float h) {
     is_jumping = true;
@@ -87,4 +99,3 @@ void Player::moveFront() {
     if (!is_jumping) actual_dir = 3;
 }
 
-#endif // _PLAYER_

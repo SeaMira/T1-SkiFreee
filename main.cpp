@@ -2,6 +2,7 @@
 #include <game.h>
 
 int main(int argc, char const *argv[]) {
+
     Game game(150, 100);
 
     Nothofagus::Controller controller;
@@ -25,5 +26,6 @@ controller.registerAction({ Nothofagus::Key::SPACE, Nothofagus::DiscreteTrigger:
 controller.registerAction({ Nothofagus::Key::ESCAPE, Nothofagus::DiscreteTrigger::Press }, [&]() { game.stopGame(); });
 
     game.startGame(controller);
+
     return 0;
 }

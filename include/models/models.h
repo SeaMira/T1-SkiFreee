@@ -45,7 +45,9 @@ class Tree : public Obstacle {
             {0.32, 0.13, 0.06, 1.0}, 
         };
 
-        Nothofagus::Texture TreeTexture({ 14, 16 }, { 0.5, 0.5, 0.5, 1.0 });
+        glm::ivec2 tex_grid = { 14, 16 };
+        glm::vec4 tex_back = { 0.5, 0.5, 0.5, 1.0 };
+        Nothofagus::Texture TreeTexture = {tex_grid, tex_back};
 
         
         bool isOutOfBoundaries(float center_y, float threshold);
@@ -70,42 +72,84 @@ class Flag : public Obstacle {
             half_bBoxW = 4.0f;
             half_bBoxH = 8.0f;
             int color_pallete = getRandomInt(1);
-            Nothofagus::ColorPallete pallete;
+            //Nothofagus::ColorPallete pallete;
             switch (color_pallete) {
                 case 0:
-                    pallete = BlueFlagPallete;
+                    //pallete = BlueFlagPallete;
+                    FlagTexture.setPallete(BlueFlagPallete)
+                        .setPixels(
+                            {
+                                0,0,0,0,0,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,1,1,1,1,0,
+                                0,0,1,1,1,1,1,0,
+                                0,1,1,1,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,2,2,2,2,2,
+                            });
                     break;
                 case 1:
-                    pallete = OrangeFlagPallete;
+                    //pallete = OrangeFlagPallete;
+                    FlagTexture.setPallete(OrangeFlagPallete)
+                        .setPixels(
+                            {
+                                0,0,0,0,0,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,1,1,1,1,0,
+                                0,0,1,1,1,1,1,0,
+                                0,1,1,1,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,2,2,2,2,2,
+                            });
+
                     break;
                 case 2:
-                    pallete = BlueFlagPallete;
+                    //pallete = BlueFlagPallete;
+                    FlagTexture.setPallete(BlueFlagPallete)
+                        .setPixels(
+                            {
+                                0,0,0,0,0,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,1,1,1,1,0,
+                                0,0,1,1,1,1,1,0,
+                                0,1,1,1,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,0,1,1,1,0,
+                                0,0,0,2,2,2,2,2,
+                            });
             }
 
-            FlagTexture.setPallete(pallete)
-                .setPixels(
-                    {
-                        0,0,0,0,0,1,1,0,
-                        0,0,0,0,1,1,1,0,
-                        0,0,0,1,1,1,1,0,
-                        0,0,1,1,1,1,1,0,
-                        0,1,1,1,1,1,1,0,
-                        0,0,0,0,1,1,1,0,
-                        0,0,0,0,1,1,1,0,
-                        0,0,0,0,1,1,1,0,
-                        0,0,0,0,1,1,1,0,
-                        0,0,0,0,1,1,1,0,
-                        0,0,0,0,1,1,1,0,
-                        0,0,0,0,1,1,1,0,
-                        0,0,0,0,1,1,1,0,
-                        0,0,0,0,1,1,1,0,
-                        0,0,0,0,1,1,1,0,
-                        0,0,0,2,2,2,2,2,
-                    });
         }
 
-
-        Nothofagus::Texture FlagTexture({ 8, 16 }, { 0.5, 0.5, 0.5, 1.0 });
+        glm::ivec2 tex_grid = { 8, 16 };
+        glm::vec4 tex_back = { 0.5, 0.5, 0.5, 1.0 };
+        Nothofagus::Texture FlagTexture = {tex_grid, tex_back};
 
         Nothofagus::ColorPallete BlueFlagPallete{
             {0.0, 0.0, 0.0, 0.0}, 
@@ -167,7 +211,9 @@ class Rock : public Obstacle {
             {0.2, 0.2, 0.2, 1.0}, 
         };
 
-        Nothofagus::Texture RockTexture({ 16, 13 }, { 0.5, 0.5, 0.5, 1.0 });
+        glm::ivec2 tex_grid = { 16, 13 };
+        glm::vec4 tex_back = { 0.5, 0.5, 0.5, 1.0 };
+        Nothofagus::Texture RockTexture = { tex_grid , tex_back };
 
         
         bool isOutOfBoundaries(float center_y, float threshold);

@@ -36,8 +36,8 @@ bool Tree::is_colliding(float x1_min, float y1_min, float x2_max, float y2_max) 
 }
 
 void Tree::interact(Player& player) {
-    if (player.is_jumping()) {
-        if (player.getSpeed() <= height) {
+    if (player.isJumping()) {
+        if (player.getActualSpeed() <= height) {
             player.crashed();
             this->setExists(false);
         }
@@ -53,8 +53,8 @@ void Tree::addToCanvas(Nothofagus::Canvas& canvas) {
 }
 
 void Tree::removeFromCanvas(Nothofagus::Canvas& canvas) {
-    canvas.removeBellota(textureId);
-    canvas.removeTexture(bellotaId);
+    canvas.removeBellota(bellotaId);
+    canvas.removeTexture(textureId);
 }
 
 
@@ -96,8 +96,8 @@ bool Flag::is_colliding(float x1_min, float y1_min, float x2_max, float y2_max) 
 
 
 void Flag::interact(Player& player) {
-    if (player.is_jumping()) {
-        if (player.getSpeed() <= height) {
+    if (player.isJumping()) {
+        if (player.getActualSpeed() <= height) {
             player.crashed();
             this->setExists(false);
         }
@@ -113,8 +113,8 @@ void Flag::addToCanvas(Nothofagus::Canvas& canvas) {
 }
 
 void Flag::removeFromCanvas(Nothofagus::Canvas& canvas) {
-    canvas.removeBellota(textureId);
-    canvas.removeTexture(bellotaId);
+    canvas.removeBellota(bellotaId);
+    canvas.removeTexture(textureId);
 }
 
 
@@ -155,8 +155,8 @@ bool Rock::is_colliding(float x1_min, float y1_min, float x2_max, float y2_max) 
 }
 
 void Rock::interact(Player& player) {
-    if (player.is_jumping()) {
-        if (player.getSpeed() <= height) {
+    if (player.isJumping()) {
+        if (player.getActualSpeed() <= height) {
             player.crashed();
             this->setExists(false);
         }
@@ -172,6 +172,6 @@ void Rock::addToCanvas(Nothofagus::Canvas& canvas) {
 }
 
 void Rock::removeFromCanvas(Nothofagus::Canvas& canvas) {
-    canvas.removeBellota(textureId);
-    canvas.removeTexture(bellotaId);
+    canvas.removeBellota(bellotaId);
+    canvas.removeTexture(textureId);
 }
