@@ -1,35 +1,11 @@
-
-#ifndef GAME_OBJECTS_H
-#define GAME_OBJECTS_H
+#ifndef _PLAYER_
+#define _PLAYER_
 
 #include <nothofagus.h>
-#include <initializer_list>
-#include <glm/glm.hpp>
-#include <random>
 #include <vector>
 
 
-bool checkCollision(float x1_min, float y1_min, float x1_max, float y1_max,
-    float x2_min, float y2_min, float x2_max, float y2_max) {
-    
-    // Verificar si NO están colisionando
-    if (x1_max < x2_min || x1_min > x2_max || 
-        y1_max < y2_min || y1_min > y2_max) {
-        return false;
-    }
 
-    // Si ninguna de las condiciones se cumple, están colisionando
-    return true;
-}
-
-int getRandomInt(int max) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> distrib(0, max);
-
-    // Generate random number in the range [min, max]
-    return distrib(gen);
-}
 
 class Player {
     public:
@@ -37,16 +13,21 @@ class Player {
         Player(float x, float y);
         std::vector<float> getBoundingBox();
         std::vector<float> getVelocity();
-        void addToCanvas(Nothofagus::Canvas& canvas);
-        void removeFromCanvas(Nothofagus::Canvas& canvas);
-        void draw(Nothofagus::Canvas& canvas);
+        void addToCanvas(Nothofagus::Canvas* canvas);
+        void setInvisible();
+        void removeFromCanvas(Nothofagus::Canvas* canvas);
+        void draw(Nothofagus::Canvas* canvas);
 
         void crashed();
         bool hasCrashed();
         void checkCrashCounter(const float dt);
 
+        void restoreTopSpeed(float dt);
+        void setTopSpeed(float speed);
+
         void jumped();
         bool isJumping();
+        void stopJump();
         void checkJumpCounter(const float dt);
 
         void jump(float h);
@@ -57,7 +38,8 @@ class Player {
 
         float getSpeed(const float dt);
         float getActualSpeed();
-        bool setPixelMap(std::initializer_list<Nothofagus::Pixel::ColorId> pixelMap);
+        void setActualPixelMap(Nothofagus::Canvas* canvas);
+        // bool setPixelMap(std::initializer_list<Nothofagus::Pixel::ColorId> pixelMap);
 
     protected:
         Nothofagus::ColorPallete PlayerPallete{
@@ -71,7 +53,7 @@ class Player {
     };
 
     void setFrontPixelMap() {
-        playerTexture.setPallete(PlayerPallete)
+        playerTextureFront.setPallete(PlayerPallete)
             .setPixels({
                 0,0,0,0,0,1,1,0,0,0,
                 0,3,0,0,0,1,1,0,3,0,
@@ -111,8 +93,8 @@ class Player {
                 5,5,0,0,0,0,0,0,5,5,
         });*/
 
-    void setFstDiagPixelMap() {
-        playerTexture.setPallete(PlayerPallete)
+    void setRFstDiagPixelMap() {
+        playerTextureFDR.setPallete(PlayerPallete)
             .setPixels({
             1,1,2,2,2,2,0,0,0,0,
             1,1,0,2,2,2,2,0,0,0,
@@ -153,8 +135,8 @@ class Player {
         });*/
             // 0,0,0,0,0,0,0,0,0,0,
 
-    void setSndDiagPixelMap() {
-        playerTexture.setPallete(PlayerPallete)
+    void setRSndDiagPixelMap() {
+        playerTextureSDR.setPallete(PlayerPallete)
             .setPixels({
                 0,0,2,2,0,0,0,0,0,0,
                 1,1,0,2,2,2,0,0,0,0,
@@ -196,8 +178,8 @@ class Player {
             // 0,0,0,0,0,0,0,0,0,0,
 
 
-    void setSidePixelMap() {
-        playerTexture.setPallete(PlayerPallete)
+    void setRSidePixelMap() {
+        playerTextureRS.setPallete(PlayerPallete)
             .setPixels({
                 0,0,2,2,0,0,0,0,0,0,
                 1,1,0,2,2,2,0,0,0,0,
@@ -238,6 +220,119 @@ class Player {
         });*/
             // 0,0,0,0,0,0,0,0,0,0,
 
+    
+
+    void setLFstDiagPixelMap() {
+        playerTextureFDL.setPallete(PlayerPallete)
+            .setPixels({
+            0,0,0,0,2,2,2,2,1,1,
+            0,0,0,2,2,2,2,0,1,1,
+            3,0,0,4,4,2,2,0,0,0,
+            3,0,0,5,5,5,4,0,0,0,
+            3,0,0,5,4,4,0,0,0,0,
+            3,0,3,4,4,4,1,0,0,0,
+            3,0,0,3,1,1,1,1,0,0,
+            3,0,1,1,3,1,1,1,0,0,
+            4,4,1,1,1,4,1,1,0,0,
+            4,4,0,1,1,1,4,4,0,0,
+            3,0,1,1,1,1,1,1,3,0,
+            3,3,1,1,6,1,1,0,3,5,
+            3,0,6,6,5,0,6,6,5,3,
+            0,0,5,5,0,0,6,5,3,0,
+            0,5,0,0,0,0,5,0,0,0,
+            5,0,0,0,0,0,5,0,0,0,
+
+                });
+    }
+
+    /*std::initializer_list<Nothofagus::Pixel::ColorId> fstDiagPixelMap({
+                1,1,2,2,2,2,0,0,0,0,
+                1,1,0,2,2,2,2,0,0,0,
+                0,0,0,2,2,4,4,0,0,3,
+                0,0,0,4,5,5,5,0,0,3,
+                0,0,0,0,4,4,5,0,0,3,
+                0,0,0,1,4,4,4,3,0,3,
+                0,0,0,1,1,1,3,0,0,3,
+                0,0,1,1,1,3,1,1,0,3,
+                0,0,1,1,4,1,1,1,4,4,
+                0,0,0,4,4,1,1,0,4,4,
+                0,0,3,1,1,1,1,1,0,3,
+                5,3,0,1,1,6,1,1,3,3,
+                3,5,6,6,0,5,6,6,0,3,
+                0,3,5,6,0,0,5,5,0,0,
+                0,0,0,5,0,0,0,0,5,0,
+                0,0,0,0,5,0,0,0,0,5,
+        });*/
+            // 0,0,0,0,0,0,0,0,0,0,
+
+    void setLSndDiagPixelMap() {
+        playerTextureSDL.setPallete(PlayerPallete)
+            .setPixels({
+                0,0,0,0,0,0,2,2,0,0,
+                0,0,0,0,2,2,2,0,1,1,
+                0,0,0,2,2,2,2,0,1,1,
+                3,0,0,4,4,2,2,0,0,0,
+                3,0,0,5,5,5,4,0,0,0,
+                3,0,0,5,4,4,0,0,0,0,
+                3,0,0,4,4,4,3,0,0,0,
+                3,0,0,1,1,1,3,0,0,0,
+                3,0,1,1,1,1,3,1,0,0,
+                4,4,1,1,1,4,3,1,0,0,
+                4,4,0,1,1,4,4,0,0,0,
+                3,0,1,1,1,1,1,3,0,0,
+                3,3,1,1,6,1,1,3,0,0,
+                3,0,6,6,5,3,3,3,0,5,
+                0,5,5,5,0,0,6,5,5,5,
+                5,5,0,0,5,5,5,5,5,0,
+
+                });
+    }
+
+   /* std::initializer_list<Nothofagus::Pixel::ColorId> sndDiagPixelMap({
+                0,0,2,2,0,0,0,0,0,0,
+                1,1,0,2,2,2,0,0,0,0,
+                1,1,0,2,2,2,2,0,0,0,
+                0,0,0,2,2,4,4,0,0,3,
+                0,0,0,4,5,5,5,0,0,3,
+                0,0,0,0,4,4,5,0,0,3,
+                0,0,0,3,4,4,4,0,0,3,
+                0,0,0,3,1,1,1,0,0,3,
+                0,0,1,3,1,1,1,1,0,3,
+                0,0,1,3,4,1,1,1,4,4,
+                0,0,0,4,4,1,1,0,4,4,
+                0,0,0,3,1,1,1,1,0,3,
+                0,0,0,3,1,6,1,1,3,3,
+                5,0,3,3,3,5,6,6,0,3,
+                5,5,5,6,0,0,5,5,5,0,
+                0,0,5,5,5,5,0,0,5,5,
+        });*/
+            // 0,0,0,0,0,0,0,0,0,0,
+
+
+    void setLSidePixelMap() {
+        playerTextureLS.setPallete(PlayerPallete)
+            .setPixels({
+                0,0,0,0,0,0,0,2,2,0,
+                0,0,0,0,2,2,2,0,1,1,
+                0,0,0,2,2,2,2,0,1,1,
+                3,0,0,4,4,2,2,0,0,0,
+                3,0,0,5,5,5,4,0,0,0,
+                3,0,0,4,4,4,0,0,0,0,
+                3,0,0,4,4,4,3,0,0,0,
+                3,0,0,1,1,1,3,0,0,0,
+                3,0,1,1,1,1,3,1,0,0,
+                4,4,1,1,1,4,3,1,0,0,
+                4,4,0,1,1,4,4,0,0,0,
+                3,0,1,1,1,1,1,3,0,0,
+                3,3,1,1,6,1,1,3,0,0,
+                3,0,6,6,5,3,3,3,0,0,
+                5,5,5,5,5,5,6,3,6,5,
+                0,5,5,5,5,5,5,5,5,5,
+
+                });
+    }
+
+
     // 0 is left
     // 1 left diag
     // 2 left semidiag
@@ -247,6 +342,7 @@ class Player {
     // 6 is right
     int actual_dir = 3;
     float speed = 0.0f;
+    float top_speed = 1.0f;
 
     // choque
     float crash_counter = 1.0f;
@@ -255,57 +351,42 @@ class Player {
     // salto
     float jump_counter = 1.0f;
     bool is_jumping = false;
+    float half_bBoxW = 5.0f, half_bBoxH = 8.0f;
+    float x, y;
 
     glm::ivec2 tex_grid = { 10, 16 };
     glm::vec4 tex_back = { 0.5, 0.5, 0.5, 1.0 };
-    Nothofagus::Texture playerTexture = { tex_grid, tex_back };
-    float half_bBoxW = 5.0f, half_bBoxH = 8.0f;
-    float x, y;
-    Nothofagus::TextureId textureId;
-    Nothofagus::BellotaId bellotaId;
+    Nothofagus::Texture playerTextureFront = { tex_grid, tex_back };
+    Nothofagus::Texture playerTextureFDR = { tex_grid, tex_back };
+    Nothofagus::Texture playerTextureSDR = { tex_grid, tex_back };
+    Nothofagus::Texture playerTextureRS = { tex_grid, tex_back };
+    Nothofagus::Texture playerTextureFDL = { tex_grid, tex_back };
+    Nothofagus::Texture playerTextureSDL = { tex_grid, tex_back };
+    Nothofagus::Texture playerTextureLS = { tex_grid, tex_back };
+
+    Nothofagus::TextureId textureIdFront;
+    Nothofagus::BellotaId bellotaIdFront;
+    bool frontvisible = true;
+    Nothofagus::TextureId textureIdFDR;
+    Nothofagus::BellotaId bellotaIdFDR;
+    bool fdrvisible = false;
+    Nothofagus::TextureId textureIdSDR;
+    Nothofagus::BellotaId bellotaIdSDR;
+    bool sdrvisible = false;
+    Nothofagus::TextureId textureIdRS;
+    Nothofagus::BellotaId bellotaIdRS;
+    bool srvisible = false;
+    Nothofagus::TextureId textureIdFDL;
+    Nothofagus::BellotaId bellotaIdFDL;
+    bool fdlvisible = false;
+    Nothofagus::TextureId textureIdSDL;
+    Nothofagus::BellotaId bellotaIdSDL;
+    bool sdlvisible = false;
+    Nothofagus::TextureId textureIdLS;
+    Nothofagus::BellotaId bellotaIdLS;
+    bool slvisible = false;
+
+    Nothofagus::BellotaId actualBellotaId;
 };
 
-class Obstacle {
-    public:
-        virtual bool isOutOfBoundaries(float center_y, float threshold) = 0;
-        virtual bool is_colliding(Player& player) = 0;
-        virtual bool is_colliding(float x1_min, float y1_min, float x2_max, float y2_max) = 0;
-        virtual void interact(Player& player) = 0;
-        virtual void addToCanvas(Nothofagus::Canvas& canvas) = 0;
-        virtual void removeFromCanvas(Nothofagus::Canvas& canvas) = 0;
-        void setPos(const float x, const float y) {
-            this->x = x;
-            this->y = y;
-        }
-
-        std::vector<float> getPos() const {
-            return std::vector<float>({x ,y});
-        }
-
-        void move(const float x, const float y) {
-            this->x += x;
-            this->y += y;
-        }
-
-        void setExists(bool exists) {
-            this->exists = exists;
-        }
-
-        bool getExists() {
-            return exists;
-        }
-
-        float getX() const { return x; }
-        float getY() const { return y; }
-
-    protected:
-
-        float half_bBoxW, half_bBoxH;
-        float x, y;
-        bool exists = false;
-        float height;
-        Nothofagus::TextureId textureId;
-        Nothofagus::BellotaId bellotaId;
-};
-
-#endif // GAME_OBJECTS_H
+#endif // _PLAYER_
