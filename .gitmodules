@@ -1,3 +1,6 @@
 [submodule "extern/nothofagus"]
 	path = extern/nothofagus
 	url = https://github.com/dantros/nothofagus.git
+[submodule "third_party/nothofagus"]
+	path = third_party/nothofagus
+	url = https://github.com/dantros/nothofagus.git
