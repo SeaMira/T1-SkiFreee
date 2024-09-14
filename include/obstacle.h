@@ -4,6 +4,7 @@
 #include "player.h"
 #include "utils.h"
 
+#define REMOVED_POINTS 1000
 
 class Obstacle {
     public:

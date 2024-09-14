@@ -4,3 +4,6 @@
 [submodule "third_party/nothofagus"]
 	path = third_party/nothofagus
 	url = https://github.com/dantros/nothofagus.git
+[submodule "third_party/rusty_audio"]
+	path = third_party/rusty_audio
+	url = https://github.com/dantros/rusty_audio.git

@@ -38,10 +38,13 @@ bool Flag::is_colliding(float x1_min, float y1_min, float x2_max, float y2_max) 
 void Flag::interact(Player* player) {
     if (player->isJumping()) {
         if (player->getActualSpeed() <= height) {
+            player->removeStylePoints(REMOVED_POINTS);
             player->crashed();
+            player->setSpeed(0.0f);
             this->setExists(false);
-        }
+        } else player->addStylePoints(1);
     } else {
+        player->removeStylePoints(REMOVED_POINTS);
         player->crashed();
         this->setExists(false);
     }

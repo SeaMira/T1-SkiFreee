@@ -71,7 +71,7 @@ void Game::addObstacle(std::unique_ptr<Obstacle> obstacle) {
 void Game::generateObstacles() {
     // Generar obstáculos de forma aleatoria
     while (num_game_objects < max_game_objects) {
-        int random_x = getRandomInt(canvas_width-30, canvas_width+30);
+        int random_x = getRandomInt(-30, canvas_width+30);
         int random_y = getRandomInt(-20, canvas_height);
 
         int obst_int = getRandomInt(5);

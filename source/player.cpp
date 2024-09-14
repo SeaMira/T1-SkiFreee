@@ -15,6 +15,15 @@ Player::Player(float x, float y): x(x), y(y) {
     setRFstDiagPixelMap();
     setRSndDiagPixelMap();
     setRSidePixelMap();
+
+    RustyAudio::Buffer jumpSound = jumpAudio();
+    jumpAudioPlayer.init(jumpSound);
+    RustyAudio::Buffer crashSound = crashAudio();
+    crashAudioPlayer.init(crashSound);
+    RustyAudio::Buffer speedUpSound = speedUpAudio();
+    speedUpAudioPlayer.init(speedUpSound);
+    RustyAudio::Buffer speedDownSound = speedDownAudio();
+    speedDownAudioPlayer.init(speedDownSound);
 }
 
 std::vector<float> Player::getBoundingBox() {
@@ -100,6 +109,9 @@ void Player::setTopSpeed(float speed) {
     top_speed = speed;
 }
 
+void Player::setSpeed(const float speed) {
+    this->speed = speed;
+}
 
 float Player::getSpeed(const float dt) {
     if (actual_dir != 0 && actual_dir != 6)
@@ -163,7 +175,7 @@ void Player::moveLeft() {
     if (!is_jumping) actual_dir = std::max(actual_dir-1, 0);
 }
 void Player::moveFront() {
-    if (!is_jumping) actual_dir = 3;
+    actual_dir = 3;
 }
 
 void Player::setInvisible() {
@@ -206,3 +218,28 @@ void Player::setActualPixelMap(Nothofagus::Canvas* canvas) {
     
 }
 
+
+void Player::playJumpSound() {
+    jumpAudioPlayer.play();
+}
+void Player::playCrashSound() {
+    crashAudioPlayer.play();
+}
+void Player::playSpeedUpSound() {
+    speedUpAudioPlayer.play();
+}
+void Player::playSpeedDownSound() {
+    speedDownAudioPlayer.play();
+}
+
+void Player::addStylePoints(int p) {
+    stylePoints+= p;
+}
+
+void Player::removeStylePoints(int p) {
+    stylePoints-= p;
+}
+
+int Player::getStylePoints() {
+    return stylePoints;
+}

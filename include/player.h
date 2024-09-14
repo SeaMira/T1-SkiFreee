@@ -2,6 +2,7 @@
 #define _PLAYER_
 
 #include <nothofagus.h>
+#include "audio.h"
 #include <vector>
 
 
@@ -36,9 +37,20 @@ class Player {
         void moveFront();
 
 
+        void setSpeed(const float speed);
         float getSpeed(const float dt);
         float getActualSpeed();
         void setActualPixelMap(Nothofagus::Canvas* canvas);
+
+        void playJumpSound();
+        void playCrashSound();
+        void playSpeedUpSound();
+        void playSpeedDownSound();
+
+        void addStylePoints(int p);
+        void removeStylePoints(int p);
+        int getStylePoints();
+
         // bool setPixelMap(std::initializer_list<Nothofagus::Pixel::ColorId> pixelMap);
 
     protected:
@@ -74,25 +86,6 @@ class Player {
                 });
     }
 
-    /*std::initializer_list<Nothofagus::Pixel::ColorId> frontPixelMap({
-                0,0,0,0,0,1,1,0,0,0,
-                0,3,0,0,0,1,1,0,3,0,
-                3,3,3,0,2,2,0,3,3,3,
-                0,3,0,2,2,2,2,0,3,0,
-                0,3,0,4,4,4,4,0,3,0,
-                0,3,0,5,5,5,5,0,3,0,
-                0,3,1,4,4,4,4,0,3,0,
-                1,1,1,1,4,4,1,1,1,1,
-                0,1,1,1,1,1,1,1,1,0,
-                0,4,4,1,1,1,1,4,4,0,
-                5,4,4,1,1,1,1,4,4,5,
-                5,1,1,1,1,1,1,1,1,5,
-                6,1,1,1,0,0,1,1,1,6,
-                6,6,0,0,0,0,0,0,6,6,
-                5,5,0,0,0,0,0,0,5,5,
-                5,5,0,0,0,0,0,0,5,5,
-        });*/
-
     void setRFstDiagPixelMap() {
         playerTextureFDR.setPallete(PlayerPallete)
             .setPixels({
@@ -115,25 +108,6 @@ class Player {
                 });
     }
 
-    /*std::initializer_list<Nothofagus::Pixel::ColorId> fstDiagPixelMap({
-                1,1,2,2,2,2,0,0,0,0,
-                1,1,0,2,2,2,2,0,0,0,
-                0,0,0,2,2,4,4,0,0,3,
-                0,0,0,4,5,5,5,0,0,3,
-                0,0,0,0,4,4,5,0,0,3,
-                0,0,0,1,4,4,4,3,0,3,
-                0,0,0,1,1,1,3,0,0,3,
-                0,0,1,1,1,3,1,1,0,3,
-                0,0,1,1,4,1,1,1,4,4,
-                0,0,0,4,4,1,1,0,4,4,
-                0,0,3,1,1,1,1,1,0,3,
-                5,3,0,1,1,6,1,1,3,3,
-                3,5,6,6,0,5,6,6,0,3,
-                0,3,5,6,0,0,5,5,0,0,
-                0,0,0,5,0,0,0,0,5,0,
-                0,0,0,0,5,0,0,0,0,5,
-        });*/
-            // 0,0,0,0,0,0,0,0,0,0,
 
     void setRSndDiagPixelMap() {
         playerTextureSDR.setPallete(PlayerPallete)
@@ -157,26 +131,6 @@ class Player {
                 });
     }
 
-   /* std::initializer_list<Nothofagus::Pixel::ColorId> sndDiagPixelMap({
-                0,0,2,2,0,0,0,0,0,0,
-                1,1,0,2,2,2,0,0,0,0,
-                1,1,0,2,2,2,2,0,0,0,
-                0,0,0,2,2,4,4,0,0,3,
-                0,0,0,4,5,5,5,0,0,3,
-                0,0,0,0,4,4,5,0,0,3,
-                0,0,0,3,4,4,4,0,0,3,
-                0,0,0,3,1,1,1,0,0,3,
-                0,0,1,3,1,1,1,1,0,3,
-                0,0,1,3,4,1,1,1,4,4,
-                0,0,0,4,4,1,1,0,4,4,
-                0,0,0,3,1,1,1,1,0,3,
-                0,0,0,3,1,6,1,1,3,3,
-                5,0,3,3,3,5,6,6,0,3,
-                5,5,5,6,0,0,5,5,5,0,
-                0,0,5,5,5,5,0,0,5,5,
-        });*/
-            // 0,0,0,0,0,0,0,0,0,0,
-
 
     void setRSidePixelMap() {
         playerTextureRS.setPallete(PlayerPallete)
@@ -199,27 +153,6 @@ class Player {
                 5,5,5,5,5,5,5,5,5,0,
                 });
     }
-
-    /*std::initializer_list<Nothofagus::Pixel::ColorId> sidePixelMap({
-                0,0,2,2,0,0,0,0,0,0,
-                1,1,0,2,2,2,0,0,0,0,
-                1,1,0,2,2,2,2,0,0,0,
-                0,0,0,2,2,4,4,0,0,3,
-                0,0,0,4,5,5,5,0,0,3,
-                0,0,0,0,4,4,4,0,0,3,
-                0,0,0,3,4,4,4,0,0,3,
-                0,0,0,3,1,1,1,0,0,3,
-                0,0,1,3,1,1,1,1,0,3,
-                0,0,1,3,4,1,1,1,4,4,
-                0,0,0,4,4,1,1,0,4,4,
-                0,0,0,3,1,1,1,1,0,3,
-                0,0,0,3,1,6,1,1,3,3,
-                0,0,3,3,3,5,6,6,0,3,
-                5,5,6,3,6,5,5,5,5,5,
-                5,5,5,5,5,5,5,5,5,0,
-        });*/
-            // 0,0,0,0,0,0,0,0,0,0,
-
     
 
     void setLFstDiagPixelMap() {
@@ -245,25 +178,6 @@ class Player {
                 });
     }
 
-    /*std::initializer_list<Nothofagus::Pixel::ColorId> fstDiagPixelMap({
-                1,1,2,2,2,2,0,0,0,0,
-                1,1,0,2,2,2,2,0,0,0,
-                0,0,0,2,2,4,4,0,0,3,
-                0,0,0,4,5,5,5,0,0,3,
-                0,0,0,0,4,4,5,0,0,3,
-                0,0,0,1,4,4,4,3,0,3,
-                0,0,0,1,1,1,3,0,0,3,
-                0,0,1,1,1,3,1,1,0,3,
-                0,0,1,1,4,1,1,1,4,4,
-                0,0,0,4,4,1,1,0,4,4,
-                0,0,3,1,1,1,1,1,0,3,
-                5,3,0,1,1,6,1,1,3,3,
-                3,5,6,6,0,5,6,6,0,3,
-                0,3,5,6,0,0,5,5,0,0,
-                0,0,0,5,0,0,0,0,5,0,
-                0,0,0,0,5,0,0,0,0,5,
-        });*/
-            // 0,0,0,0,0,0,0,0,0,0,
 
     void setLSndDiagPixelMap() {
         playerTextureSDL.setPallete(PlayerPallete)
@@ -288,25 +202,7 @@ class Player {
                 });
     }
 
-   /* std::initializer_list<Nothofagus::Pixel::ColorId> sndDiagPixelMap({
-                0,0,2,2,0,0,0,0,0,0,
-                1,1,0,2,2,2,0,0,0,0,
-                1,1,0,2,2,2,2,0,0,0,
-                0,0,0,2,2,4,4,0,0,3,
-                0,0,0,4,5,5,5,0,0,3,
-                0,0,0,0,4,4,5,0,0,3,
-                0,0,0,3,4,4,4,0,0,3,
-                0,0,0,3,1,1,1,0,0,3,
-                0,0,1,3,1,1,1,1,0,3,
-                0,0,1,3,4,1,1,1,4,4,
-                0,0,0,4,4,1,1,0,4,4,
-                0,0,0,3,1,1,1,1,0,3,
-                0,0,0,3,1,6,1,1,3,3,
-                5,0,3,3,3,5,6,6,0,3,
-                5,5,5,6,0,0,5,5,5,0,
-                0,0,5,5,5,5,0,0,5,5,
-        });*/
-            // 0,0,0,0,0,0,0,0,0,0,
+
 
 
     void setLSidePixelMap() {
@@ -387,6 +283,14 @@ class Player {
     bool slvisible = false;
 
     Nothofagus::BellotaId actualBellotaId;
+
+
+    RustyAudio::Player jumpAudioPlayer;
+    RustyAudio::Player crashAudioPlayer;
+    RustyAudio::Player speedUpAudioPlayer;
+    RustyAudio::Player speedDownAudioPlayer;
+        
+    int stylePoints = 0;
 };
 
 #endif // _PLAYER_
