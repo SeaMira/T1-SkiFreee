@@ -4,9 +4,12 @@ file(GLOB_RECURSE HEADERS "${CMAKE_SOURCE_DIR}/include/*.h")
 add_library(skifree_dependencies STATIC
     "player.cpp"
     "game.cpp"
+    "enemy.cpp"
     "utils.cpp"
     "audio.cpp"
     ${OBSTACLE_SOURCES}
+
+    ${HEADERS}
 )
 
 set_property(TARGET skifree_dependencies PROPERTY CXX_STANDARD 20)

@@ -36,7 +36,8 @@ bool Accelerator::is_colliding(float x1_min, float y1_min, float x2_max, float y
 void Accelerator::interact(Player* player) {
     if (!player->isJumping()) {
         player->setTopSpeed(1.25f);  
-        player->addStylePoints(1);      
+        player->addStylePoints(1);     
+        player->setIsAccellerating(); 
     } 
 }
 

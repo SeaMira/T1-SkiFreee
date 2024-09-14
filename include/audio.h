@@ -6,9 +6,9 @@
 #include <limits>
 #include <numbers>
 
-RustyAudio::Buffer jumpAudio();
-RustyAudio::Buffer crashAudio();
-RustyAudio::Buffer speedUpAudio();
-RustyAudio::Buffer speedDownAudio();
+void jumpAudio();
+void crashAudio();
+void speedUpAudio();
+void speedDownAudio();
 
 #endif // _AUDIO_

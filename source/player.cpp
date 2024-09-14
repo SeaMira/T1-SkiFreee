@@ -16,14 +16,14 @@ Player::Player(float x, float y): x(x), y(y) {
     setRSndDiagPixelMap();
     setRSidePixelMap();
 
-    RustyAudio::Buffer jumpSound = jumpAudio();
-    jumpAudioPlayer.init(jumpSound);
-    RustyAudio::Buffer crashSound = crashAudio();
-    crashAudioPlayer.init(crashSound);
-    RustyAudio::Buffer speedUpSound = speedUpAudio();
-    speedUpAudioPlayer.init(speedUpSound);
-    RustyAudio::Buffer speedDownSound = speedDownAudio();
-    speedDownAudioPlayer.init(speedDownSound);
+    // RustyAudio::Buffer jumpSound = jumpAudio();
+    // jumpAudioPlayer.init(jumpSound);
+    // RustyAudio::Buffer crashSound = crashAudio();
+    // crashAudioPlayer.init(crashSound);
+    // RustyAudio::Buffer speedUpSound = speedUpAudio();
+    // speedUpAudioPlayer.init(speedUpSound);
+    // RustyAudio::Buffer speedDownSound = speedDownAudio();
+    // speedDownAudioPlayer.init(speedDownSound);
 }
 
 std::vector<float> Player::getBoundingBox() {
@@ -100,9 +100,27 @@ void Player::draw(Nothofagus::Canvas* canvas) {
     
 }
 
+
+void Player::setIsAccellerating() {
+    is_accellerating = true;
+}
+void Player::setIsSlowing(){ 
+    is_slowing = true;
+}
+bool Player::getIsAccellerating() {
+    return is_accellerating;
+}
+bool Player::getIsSlowing() {
+    return is_slowing;
+}
+
 void Player::restoreTopSpeed(float dt) {
-    if (top_speed> 1.0f) top_speed = std::max(top_speed-dt*0.01f, 1.0f);
-    if (top_speed < 1.0f) top_speed = std::min(top_speed+dt*0.01f, 1.0f);
+    if (top_speed> 1.0f) top_speed = std::max(top_speed-dt*0.001f, 1.0f);
+    if (top_speed < 1.0f) top_speed = std::min(top_speed+dt*0.001f, 1.0f);
+    if (speed == 1.0f) {
+        is_accellerating = false;
+        is_slowing = false;
+    }
 }
 
 void Player::setTopSpeed(float speed) {
@@ -115,8 +133,8 @@ void Player::setSpeed(const float speed) {
 
 float Player::getSpeed(const float dt) {
     if (actual_dir != 0 && actual_dir != 6)
-        speed = std::min(speed+dt, top_speed);
-    else speed = std::max(speed-dt, 0.0f);
+        speed = std::min(speed+dt*0.06f, top_speed);
+    else speed = std::max(speed-dt*0.1f, 0.0f);
     return speed;
 }
 
@@ -219,18 +237,18 @@ void Player::setActualPixelMap(Nothofagus::Canvas* canvas) {
 }
 
 
-void Player::playJumpSound() {
-    jumpAudioPlayer.play();
-}
-void Player::playCrashSound() {
-    crashAudioPlayer.play();
-}
-void Player::playSpeedUpSound() {
-    speedUpAudioPlayer.play();
-}
-void Player::playSpeedDownSound() {
-    speedDownAudioPlayer.play();
-}
+// void Player::playJumpSound() {
+//     jumpAudio();
+// }
+// void Player::playCrashSound() {
+//     crashAudio();
+// }
+// void Player::playSpeedUpSound() {
+//     speedUpAudio();
+// }
+// void Player::playSpeedDownSound() {
+//     speedDownAudio();
+// }
 
 void Player::addStylePoints(int p) {
     stylePoints+= p;

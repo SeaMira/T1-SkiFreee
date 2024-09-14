@@ -2,7 +2,6 @@
 #define _PLAYER_
 
 #include <nothofagus.h>
-#include "audio.h"
 #include <vector>
 
 
@@ -23,8 +22,6 @@ class Player {
         bool hasCrashed();
         void checkCrashCounter(const float dt);
 
-        void restoreTopSpeed(float dt);
-        void setTopSpeed(float speed);
 
         void jumped();
         bool isJumping();
@@ -36,7 +33,12 @@ class Player {
         void moveLeft();
         void moveFront();
 
-
+        void setIsAccellerating();
+        void setIsSlowing();
+        bool getIsAccellerating();
+        bool getIsSlowing();
+        void restoreTopSpeed(float dt);
+        void setTopSpeed(float speed);
         void setSpeed(const float speed);
         float getSpeed(const float dt);
         float getActualSpeed();
@@ -250,6 +252,10 @@ class Player {
     float half_bBoxW = 5.0f, half_bBoxH = 8.0f;
     float x, y;
 
+    // acelerado o ralentizado
+    bool is_accellerating = false;
+    bool is_slowing = false;
+
     glm::ivec2 tex_grid = { 10, 16 };
     glm::vec4 tex_back = { 0.5, 0.5, 0.5, 1.0 };
     Nothofagus::Texture playerTextureFront = { tex_grid, tex_back };
@@ -285,10 +291,10 @@ class Player {
     Nothofagus::BellotaId actualBellotaId;
 
 
-    RustyAudio::Player jumpAudioPlayer;
-    RustyAudio::Player crashAudioPlayer;
-    RustyAudio::Player speedUpAudioPlayer;
-    RustyAudio::Player speedDownAudioPlayer;
+    // RustyAudio::Player jumpAudioPlayer;
+    // RustyAudio::Player crashAudioPlayer;
+    // RustyAudio::Player speedUpAudioPlayer;
+    // RustyAudio::Player speedDownAudioPlayer;
         
     int stylePoints = 0;
 };
