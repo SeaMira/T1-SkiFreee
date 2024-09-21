@@ -56,7 +56,7 @@ int main(int argc, char const *argv[]) {
 
 
     unsigned int canvas_width = 150, canvas_height = 100;
-    int game_obj = 10;
+    int game_obj = 18;
     bool pause = false;
 
 

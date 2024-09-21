@@ -40,8 +40,8 @@ void Game::updateFrame(float dt) {
                 }
 
                 if (obj->isOutOfBoundaries(player_y, dist_from_player_threshold)) {
-                    int new_x = getRandomInt(-30, canvas_width+30);
-                    int new_y = -getRandomInt(200);
+                    int new_x = getRandomInt(-50, canvas_width+50);
+                    int new_y = -getRandomInt(100);
                     obj->setPos((float)new_x, (float)new_y);
                     obj->setExists(true);
                 }
@@ -66,7 +66,7 @@ void Game::addObstacle(std::unique_ptr<Obstacle> obstacle) {
 void Game::generateObstacles() {
     // Generar obstáculos de forma aleatoria
     while (num_game_objects < max_game_objects) {
-        int random_x = getRandomInt(-30, canvas_width+30);
+        int random_x = getRandomInt(-50, canvas_width+50);
         int random_y = getRandomInt(-20, canvas_height);
 
         int obst_int = getRandomInt(5);
