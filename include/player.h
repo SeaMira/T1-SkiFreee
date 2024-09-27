@@ -4,7 +4,7 @@
 #include <nothofagus.h>
 #include <vector>
 
-
+#define DEFAULT_TOP_SPEED 2.0f
 
 
 class Player {
@@ -39,6 +39,8 @@ class Player {
         bool getIsSlowing();
         void restoreTopSpeed(float dt);
         void setTopSpeed(float speed);
+        float getTopSpeed();
+        float getDefaultTopSpeed();
         void setSpeed(const float speed);
         float getSpeed(const float dt);
         float getActualSpeed();
@@ -240,7 +242,8 @@ class Player {
     // 6 is right
     int actual_dir = 3;
     float speed = 0.0f;
-    float top_speed = 1.0f;
+    float top_speed = DEFAULT_TOP_SPEED;
+    float default_top_speed = DEFAULT_TOP_SPEED;
 
     // choque
     float crash_counter = 1.0f;

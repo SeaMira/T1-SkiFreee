@@ -35,7 +35,7 @@ bool Deaccelerator::is_colliding(float x1_min, float y1_min, float x2_max, float
 
 void Deaccelerator::interact(Player* player) {
     if (!player->isJumping()) {
-        player->setTopSpeed(0.75f);  
+        player->setTopSpeed(0.75f*player->getDefaultTopSpeed());
         player->removeStylePoints(1);  
         player->setIsSlowing();    
     } 

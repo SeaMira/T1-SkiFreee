@@ -15,9 +15,9 @@ Game::Game(unsigned int x, unsigned int y, int max_game_objects, Player* player,
 }
 
 void Game::updateFrame(float dt) {
-    player->draw(canvas);
+    //player->draw(canvas);
     if (!end()) {
-        float player_speed = player->getSpeed(dt*0.01);
+        float player_speed = player->getSpeed(dt*0.06);
         std::vector<float> player_vel = player->getVelocity();
         std::vector<float> player_bbox = player->getBoundingBox();
 

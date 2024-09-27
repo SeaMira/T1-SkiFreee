@@ -4,7 +4,7 @@
 
 
 
-void game_info(int canvas_width, int canvas_height, float speed, int style, float time, float dist) {
+void game_info(int canvas_width, int canvas_height, float speed, int style, float time, float dist, float dt) {
     int hours = static_cast<int>(time/1000.0f) / 3600;
     int minutes = (static_cast<int>(time/1000.0f) % 3600) / 60;
     int seconds = static_cast<int>(time/1000.0f) % 60;
@@ -18,6 +18,7 @@ void game_info(int canvas_width, int canvas_height, float speed, int style, floa
     ImGui::Text("Speed: %.2f", speed); ImGui::SameLine();
     ImGui::Text("Style: %d", style); ImGui::SameLine();
     ImGui::Text("Distance: %.2f", dist);
+    ImGui::Text("FPS: %.2f", 1000.0f/dt);
     ImGui::End();
 }
 
@@ -82,7 +83,7 @@ int main(int argc, char const *argv[]) {
             if (player.getIsSlowing()) speedDownSoundPlayer.play(); 
             float speed = player.getActualSpeed();
             std::vector<float> velocity = player.getVelocity();
-            game_info(canvas_width, canvas_height, -18.0f*velocity[1]*speed, player.getStylePoints(), time, game.getDist());
+            game_info(canvas_width, canvas_height, -18.0f*velocity[1]*speed, player.getStylePoints(), time, game.getDist(), dt);
 
         }
     };

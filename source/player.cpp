@@ -115,9 +115,9 @@ bool Player::getIsSlowing() {
 }
 
 void Player::restoreTopSpeed(float dt) {
-    if (top_speed> 1.0f) top_speed = std::max(top_speed-dt*0.001f, 1.0f);
-    if (top_speed < 1.0f) top_speed = std::min(top_speed+dt*0.001f, 1.0f);
-    if (speed == 1.0f) {
+    if (top_speed> DEFAULT_TOP_SPEED) top_speed = std::max(top_speed-dt*0.001f, DEFAULT_TOP_SPEED);
+    if (top_speed < DEFAULT_TOP_SPEED) top_speed = std::min(top_speed+dt*0.001f, DEFAULT_TOP_SPEED);
+    if (speed == DEFAULT_TOP_SPEED) {
         is_accellerating = false;
         is_slowing = false;
     }
@@ -127,6 +127,14 @@ void Player::setTopSpeed(float speed) {
     top_speed = speed;
 }
 
+float Player::getTopSpeed() {
+    return top_speed;
+}
+
+float Player::getDefaultTopSpeed() {
+    return default_top_speed;
+}
+
 void Player::setSpeed(const float speed) {
     this->speed = speed;
 }
@@ -134,7 +142,7 @@ void Player::setSpeed(const float speed) {
 float Player::getSpeed(const float dt) {
     if (actual_dir != 0 && actual_dir != 6)
         speed = std::min(speed+dt*0.06f, top_speed);
-    else speed = std::max(speed-dt*0.1f, 0.0f);
+    else speed = std::max(speed-dt*0.01f, 0.0f);
     return speed;
 }
 
